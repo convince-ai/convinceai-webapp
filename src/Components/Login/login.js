@@ -11,7 +11,7 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate('/app');
+    navigate('/');
     //logica a ser aplicada quando integrar com backend
     /*try {
       const response = await axios.post('http://localhost:5000/api/login', { email, password });
