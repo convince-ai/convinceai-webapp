@@ -11,17 +11,18 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate('/');
-    //logica a ser aplicada quando integrar com backend
-    /*try {
-      const response = await axios.post('http://localhost:5000/api/login', { email, password });
+    
+    try {
+      console.log(email);
+      console.log(password);
+      const response = await axios.post('http://localhost:3000/auth/login', { email, password });
       const { token } = response.data;
 
       localStorage.setItem('jwt', token);  
-      //navigate('/dashboard');
+      navigate('/dashboard');
     } catch (error) {
       alert('Usuário ou senha incorretos.');
-    }*/
+    }
   };
 
   return (

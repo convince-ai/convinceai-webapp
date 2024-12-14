@@ -1,13 +1,15 @@
 import React from 'react';
 import { Container } from './styles';
 import { Link } from 'react-router-dom';
+import logo from '../../assets/logo.png';
+
 
 function Navbar() {
     return (
         <Container>
             <div className="logo">
                 <a href="/">
-                    <img src="logo.png" alt="Logo" /> {/*caminho da imagem do logo */}
+                    <img src={logo} alt="Carrinho de Compras" />
                 </a>
             </div>
             
