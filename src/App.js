@@ -5,6 +5,7 @@ import Layout from './Components/Layout';
 import Navbar from './Components/Navbar/navbar';
 import Login from './Components/Login/login';
 import LandingPage from './Components/LandingPage/landingPage';
+import Dashboard from './Components/Dashboard/dashboard';
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
             <Layout><Navbar/><LandingPage/></Layout>
           }
         />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Layout><Login /></Layout>} />
+        <Route path="/dashboard" element={<Layout><Dashboard/></Layout>}/>
       </Routes>
     </Router>
   );
