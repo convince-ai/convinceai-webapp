@@ -2,6 +2,18 @@ import React from "react";
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from "react-simple-maps";
 import { scaleLinear } from "d3-scale";
 import "./dashboard.css";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Doughnut } from "react-chartjs-2";
+
+
+ChartJS.register(ArcElement, Tooltip, Legend);
+
+
 
 //mapa do brasil
 const geoUrl = "https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/brazil-states.geojson";
@@ -15,8 +27,9 @@ const data = [
   { state: "Pará", ddd: "91", abandonedCarts: 20 },
 ];
 
+
 const colorScale = scaleLinear()
-  .domain([0, 150]) 
+  .domain([0, 150])
   .range(["#ffcccc", "#990000"]);
 
 function Dashboard() {
@@ -30,7 +43,7 @@ function Dashboard() {
       <div className="cards-info">
         <div className="msg-user">
           <h3>Olá, Empresa!</h3>
-          <p>10/12/2024 10:56</p>
+          <p>15/12/2024 11:22</p>
         </div>
         <div className="card">
           <div className="icon carrinho-abandonado"></div>
@@ -60,7 +73,7 @@ function Dashboard() {
         <div className="product-container">
           <h2>Carrinhos Abandonados por Região</h2>
           <div className="map-wrapper">
-            <ComposableMap 
+            <ComposableMap
               projection="geoMercator"
               projectionConfig={{
                 center: [-413, -15],
@@ -90,10 +103,53 @@ function Dashboard() {
           </div>
         </div>
         <div className="product-container">
-          <h2>Produtos Abandonados</h2>
-          <div className="itens-wrapper"></div>
-        </div>
-        </div>
+  <h2>Principais Produtos Abandonados</h2>
+  <div className="chart-wrapper">
+    <Doughnut
+      data={{
+        labels: ["Produto A", "Produto B", "Produto C", "Produto D", "Produto E"], // Nomes dos produtos
+        datasets: [
+          {
+            data: [150, 120, 90, 80, 60], // Quantidade de abandonos
+            backgroundColor: [
+              "#FF6384",
+              "#36A2EB",
+              "#FFCE56",
+              "#4BC0C0",
+              "#9966FF",
+            ],
+            hoverBackgroundColor: [
+              "#FF6384AA",
+              "#36A2EBAA",
+              "#FFCE56AA",
+              "#4BC0C0AA",
+              "#9966FFAA",
+            ],
+          },
+        ],
+      }}
+      options={{
+        plugins: {
+          legend: {
+            position: "bottom", // Legenda abaixo do gráfico
+          },
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                const value = context.raw;
+                const percentage = ((value / total) * 100).toFixed(2);
+                return `${context.label}: ${value} (${percentage}%)`;
+              },
+            },
+          },
+        },
+      }}
+    />
+  </div>
+</div>
+
+      </div>
     </div>
   );
 }

@@ -86,3 +86,25 @@ svg {
   justify-content: center;
   align-items: center;
 }
+
+.chart-wrapper {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto; /* Centraliza o gráfico */
+  padding: 20px;
+}
+
+.product-container {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin: 10px;
+  max-width: 1000px;
+}
+
+.product-container h2 {
+  color: #344767;
+  margin-bottom: 20px;
+}

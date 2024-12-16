@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from './styles';
 import { Link } from 'react-router-dom';
-import logo from '../../assets/logo.png';
+import logosvg from '../../assets/logosvg.svg';
 
 
 function Navbar() {
@@ -9,7 +9,7 @@ function Navbar() {
         <Container>
             <div className="logo">
                 <a href="/">
-                    <img src={logo} alt="Carrinho de Compras" />
+                    <img src={logosvg} alt="Carrinho de Compras" />
                 </a>
             </div>
             

@@ -1,0 +1,92 @@
+.container {
+    position: fixed;
+    width: 100%;
+    display: flex;
+    align-items: center; /* Centraliza os itens verticalmente */
+    height: 60px; /* Define uma altura suficiente para centralizar o conteúdo */
+    padding: 0 2rem; /* Padding para espaçamento horizontal */
+    background-color: #ddd; /* Cor de fundo */
+}
+
+.container .logo {
+    flex: 1;
+}
+
+.container .menu {
+    flex: 2;
+    display: flex;
+    justify-content: center; /* centraliza os itens principais */
+}
+
+.container .menu ul {
+    list-style: none;
+    display: flex;
+    gap: 8rem; /* espaço entre os itens centralizados */
+    margin: 0;
+    padding: 0;
+}
+
+.container .menu li {
+    display: inline;
+}
+
+.container .menu a {
+    color: black;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.container .menu a:hover {
+    color: #eaeaea; /* cor ao passar o mouse */
+}
+
+.container .menu b {
+    color: black;
+    justify-content: flex-end;
+}
+
+.container .menu b::before {
+    content: ''; 
+    margin-right: 0.1rem; /* espaço entre o ícone e o texto */
+}
+
+.container .login {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.container .login a {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: #f2f2f2; /* cor de fundo do botão de login */
+    border-radius: 5px;
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.container .login a:hover {
+    background-color: #e0e0e0; /* cor de fundo ao passar o mouse */
+}
+
+.container .login a::before {
+    content: '👤'; /* ícone SVG */
+    margin-right: 0.1rem; /* espaço entre o ícone e o texto */
+}
+
+.logo-svg {
+    width: 40px; /* Ajusta o tamanho do SVG */
+    height: 40px;
+    margin-top: 20px;
+    fill: black; /* Define a cor se o SVG for configurado com 'fill' */
+    transition: transform 0.3s ease;
+}
+
+.logo-svg:hover {
+    transform: scale(1.1); /* Aumenta o tamanho ao passar o mouse */
+}
