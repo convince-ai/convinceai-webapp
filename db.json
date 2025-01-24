@@ -1,0 +1,34 @@
+{
+  "abandonedCarts": 150,
+  "recoveredCarts": 30,
+  "conversionRate": 242,
+  "abandonedRegions": [
+    { "state": "São Paulo", "ddd": "11", "abandonedCarts": 120 },
+    { "state": "Rio de Janeiro", "ddd": "21", "abandonedCarts": 90 },
+    { "state": "Minas Gerais", "ddd": "31", "abandonedCarts": 75 },
+    { "state": "Bahia", "ddd": "71", "abandonedCarts": 500 },
+    { "state": "Pará", "ddd": "91", "abandonedCarts": 20 },
+    { "state": "Paraná", "ddd": "41", "abandonedCarts": 300 },
+    { "state": "Santa Catarina", "ddd": "48", "abandonedCarts": 40 },
+    { "state": "Pernambuco", "ddd": "81", "abandonedCarts": 55 },
+    { "state": "Goiás", "ddd": "62", "abandonedCarts": 35 },
+    { "state": "Amazonas", "ddd": "92", "abandonedCarts": 15 }
+  ],
+  "abandonedProducts": [
+    { "name": "Produto A", "value": 200 },
+    { "name": "Produto B", "value": 120 },
+    { "name": "Produto C", "value": 90 },
+    { "name": "Produto D", "value": 80 },
+    { "name": "Produto E", "value": 60 }
+  ],
+  "productQuestions": [
+    { "name": "Produto A", "questions": ["Por que é tão caro?", "Qual o prazo de entrega?"] },
+    { "name": "Produto B", "questions": ["Como funciona a garantia?", "O produto é original?", "Por que é tão caro?", "Qual o prazo de entrega?", "Por que é tão caro?", "Qual o prazo de entrega?" ,"Por que é tão caro?", "Qual o prazo de entrega?"] },
+    { "name": "Produto C", "questions": ["É compatível com Windows?", "Possui suporte técnico?"] },
+    { "name": "Produto D", "questions": ["Qual a potência do motor?", "É à prova d'água?"] },
+    { "name": "Produto E", "questions": ["Tem desconto para empresas?", "Funciona em 220V?"] },
+    { "name": "Produto F", "questions": ["Inclui acessórios?", "Qual a durabilidade?"] },
+    { "name": "Produto G", "questions": ["O produto é reciclável?", "Vem com manual em português?"] },
+    { "name": "Produto H", "questions": ["Qual o prazo para troca?", "É um produto sustentável?"] }
+  ]
+}

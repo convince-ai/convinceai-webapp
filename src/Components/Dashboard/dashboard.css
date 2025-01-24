@@ -1,15 +1,39 @@
-.dashboard-container {
-  padding: 20px;
-  font-family: Arial, sans-serif;
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-y: hidden; 
+  overflow-x: hidden;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.dashboard-header {
-  text-align: center;
-  margin-bottom: 20px;
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f4f7fc; 
+  color: black; 
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700; 
+  color: black; 
+}
+
+p, label, select {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400; 
+  color: #555; 
+}
+
+
+.dashboard-container {
+  padding: 20px;
 }
 
 .msg-user h3 {
-  font-family: Arial, Helvetica, sans-serif;
   font-size: 50px;
 }
 
@@ -32,9 +56,9 @@
 }
 
 .card h3 {
-  margin-bottom: 10px;
-  color: #344767;
+  color: #555;
 }
+
 
 .card p {
   font-size: 50px;
@@ -57,10 +81,12 @@
   max-width: 1000px;
 }
 
-
 .product-container h2 {
-  color: #344767;
-  margin-bottom: 20px;
+  font-family: 'Poppins', sans-serif;
+  color: #555;
+  font-weight: 600;
+  font-size: 21px;
+  margin-bottom: 10px;
 }
 
 .map-wrapper {
@@ -70,6 +96,45 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#product-select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  font-size: 1em;
+  background-color: #f9f9f9;
+}
+
+#product-select:focus {
+  border-color: #005aaf;
+  outline: none;
+}
+
+.questions-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 15px;
+}
+
+.questions-list li {
+  background: #f7f7f7;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 0.95em;
+  color: #555;
+  display: flex;
+  align-items: center;
+}
+
+.questions-list li::before {
+  content: "•";
+  color: #005aaf;
+  font-weight: bold;
+  margin-right: 10px;
 }
 
 svg {
@@ -90,21 +155,31 @@ svg {
 .chart-wrapper {
   width: 100%;
   max-width: 500px;
-  margin: 0 auto; /* Centraliza o gráfico */
-  padding: 20px;
+  margin: 0 auto; 
+  padding: 50px;
 }
 
-.product-container {
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  margin: 10px;
-  max-width: 1000px;
+.legend-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 1rem;
 }
 
-.product-container h2 {
-  color: #344767;
-  margin-bottom: 20px;
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem;
+}
+
+.legend-color {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.legend-label {
+  font-size: 14px;
+  color: #333;
 }

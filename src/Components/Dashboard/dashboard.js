@@ -3,7 +3,6 @@ import {
   ComposableMap,
   Geographies,
   Geography,
-  ZoomableGroup,
 } from "react-simple-maps";
 import { scaleLinear } from "d3-scale";
 import {
@@ -18,90 +17,116 @@ import "./dashboard.css";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-// URL do mapa do Brasil
 const geoUrl = "https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/brazil-states.geojson";
 
 const colorScale = scaleLinear().domain([0, 150]).range(["#ffcccc", "#990000"]);
 
 const Dashboard = () => {
-
-  //skimulando dados antes de integrar com api
   const [dashboardData, setDashboardData] = useState({
-    abandonedCarts: 150,
-    recoveredCarts: 30,
-    conversionRate: 24,
-    abandonedRegions: [
-      { state: "São Paulo", ddd: "11", abandonedCarts: 120 },
-      { state: "Rio de Janeiro", ddd: "21", abandonedCarts: 90 },
-      { state: "Minas Gerais", ddd: "31", abandonedCarts: 75 },
-      { state: "Bahia", ddd: "71", abandonedCarts: 50 },
-      { state: "Pará", ddd: "91", abandonedCarts: 20 },
-    ],
-    abandonedProducts: [
-      { name: "Produto A", value: 150 },
-      { name: "Produto B", value: 120 },
-      { name: "Produto C", value: 90 },
-      { name: "Produto D", value: 80 },
-      { name: "Produto E", value: 60 },
-    ],
-    productQuestions: [
-      { name: "Produto X", questions: 10 },
-      { name: "Produto Y", questions: 15 },
-      { name: "Produto Z", questions: 5 },
-    ],
+    abandonedCarts: 0,
+    recoveredCarts: 0,
+    conversionRate: 0,
+    abandonedRegions: [],
+    abandonedProducts: [],
+    productQuestions: [],
   });
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [abandonedCartsRes, recoveredCartsRes, conversionRateRes, abandonedRegionsRes, abandonedProductsRes, productQuestionsRes] = await Promise.all([
+          axios.get("http://localhost:3001/abandonedCarts"),
+          axios.get("http://localhost:3001/recoveredCarts"),
+          axios.get("http://localhost:3001/conversionRate"),
+          axios.get("http://localhost:3001/abandonedRegions"),
+          axios.get("http://localhost:3001/abandonedProducts"),
+          axios.get("http://localhost:3001/productQuestions"),
+        ]);
+
+        setDashboardData({
+          abandonedCarts: abandonedCartsRes.data,
+          recoveredCarts: recoveredCartsRes.data,
+          conversionRate: conversionRateRes.data,
+          abandonedRegions: abandonedRegionsRes.data,
+          abandonedProducts: abandonedProductsRes.data,
+          productQuestions: productQuestionsRes.data,
+        });
+
+        setSelectedProduct(productQuestionsRes.data.length > 0 ? productQuestionsRes.data[0].name : "");
+
+        setLoading(false);
+
+      } catch (err) {
+        setError("Erro ao carregar os dados do dashboard");
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleProductChange = (event) => {
+    setSelectedProduct(event.target.value);
+  }
+
+  if (loading) return <p>Carregando...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <div className="dashboard-container">
-      <header className="dashboard-header">
-        <h1>Dashboard</h1>
-      </header>
-
+      
       {/* Cards de informações */}
       <div className="cards-info">
         <div className="msg-user">
           <h3>Olá, Empresa!</h3>
-          <p>15/12/2024 11:22</p>
+          <p></p>
+          <h4>{new Date().toLocaleDateString("pt-BR")} {new Date().toLocaleTimeString("pt-BR")}</h4>
         </div>
         <div className="card">
           <div className="icon carrinho-abandonado"></div>
           <div>
             <h3>Carrinhos Abandonados</h3>
-            <p>{dashboardData.abandonedCarts}</p>
+            <p>{loading ? "Carregando dados" : dashboardData.abandonedCarts}</p>
           </div>
         </div>
         <div className="card">
           <div className="icon carrinho-recuperado"></div>
           <div>
             <h3>Carrinhos Recuperados</h3>
-            <p>{dashboardData.recoveredCarts}</p>
+            <p>{loading ? "Carregando dados" : dashboardData.recoveredCarts}</p>
           </div>
         </div>
         <div className="card">
           <div className="icon taxa-de-conv"></div>
           <div>
             <h3>Taxa de conversão</h3>
-            <p>{dashboardData.conversionRate}</p>
+            <p>{loading ? "Carregando dados" : dashboardData.conversionRate}%</p>
           </div>
         </div>
       </div>
 
-      {/* Mapa do Brasil e Itens Abandonados*/}
+      {/* Mapa do Brasil*/}
       <div className="products-info">
         <div className="product-container">
-          <h2>Carrinhos Abandonados por Região</h2>
+          <h2>PRODUTOS ABANDONADOS POR REGIÃO</h2>
           <div className="map-wrapper">
             <ComposableMap
               projection="geoMercator"
               projectionConfig={{
                 center: [-413, -15],
-                scale: 850
+                scale: 850,
               }}
             >
               <Geographies geography={geoUrl}>
                 {({ geographies }) =>
                   geographies.map((geo) => {
-                    const stateData = dashboardData.abandonedRegions.find((d) => geo.properties.name === d.state);
+                    const stateData = dashboardData.abandonedRegions.find(
+                      (d) => geo.properties.name === d.state
+                    );
                     return (
                       <Geography
                         key={geo.rsmKey}
@@ -120,15 +145,17 @@ const Dashboard = () => {
             </ComposableMap>
           </div>
         </div>
+
+        {/*Produtos mais abandonados*/}
         <div className="product-container">
-          <h2>Principais Produtos Abandonados</h2>
+          <h2>PRODUTOS MAIS ABANDONADOS</h2>
           <div className="chart-wrapper">
             <Doughnut
               data={{
-                labels: ["Produto A", "Produto B", "Produto C", "Produto D", "Produto E"], // Nomes dos produtos
+                labels: dashboardData.abandonedProducts.map((p) => p.name),
                 datasets: [
                   {
-                    data: [150, 120, 90, 80, 60], // Quantidade de abandonos
+                    data: dashboardData.abandonedProducts.map((p) => p.value),
                     backgroundColor: [
                       "#FF6384",
                       "#36A2EB",
@@ -149,7 +176,7 @@ const Dashboard = () => {
               options={{
                 plugins: {
                   legend: {
-                    position: "bottom",
+                    display: false, // Desativa a legenda padrão
                   },
                   tooltip: {
                     callbacks: {
@@ -165,19 +192,64 @@ const Dashboard = () => {
               }}
             />
           </div>
+          <div className="legend-wrapper">
+            {dashboardData.abandonedProducts.map((product, index) => (
+              <div key={index} className="legend-item">
+                <span
+                  className="legend-color"
+                  style={{
+                    backgroundColor: [
+                      "#FF6384",
+                      "#36A2EB",
+                      "#FFCE56",
+                      "#4BC0C0",
+                      "#9966FF",
+                    ][index],
+                  }}
+                ></span>
+                <span className="legend-label">{product.name}</span>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Box de Dúvidas */}
-        <div className="product-container">
-          <h2>BOX com produtos x dúvidas</h2>
-          <ul>
-            {dashboardData.productQuestions.map((product, index) => (
-              <li key={index}>
-                {product.name}: {product.questions} dúvidas
-              </li>
-            ))}
-          </ul>
+
+        {/* Box com Dúvidas */}
+        <div className="product-container dv">
+          <h2>PRINCIPAIS DÚVIDAS POR PRODUTO</h2>
+          {loading ? (
+            <p>Carregando dúvidas...</p>
+          ) : (
+            <>
+              <label htmlFor="product-select">Selecione um produto:</label>
+              <select
+                id="product-select"
+                value={selectedProduct}
+                onChange={handleProductChange}
+              >
+                {dashboardData.productQuestions.map((product, index) => (
+                  <option key={index} value={product.name}>
+                    {product.name}
+                  </option>
+                ))}
+              </select>
+
+              <div>
+                <h5>Principais dúvidas {selectedProduct}:</h5>
+                <ul className="questions-list">
+                  {dashboardData.productQuestions
+                    .filter((product) => product.name === selectedProduct)
+                    .map((product) =>
+                      product.questions.map((question, index) => (
+                        <li key={index}>{question}</li>
+                      ))
+                    )}
+                </ul>
+              </div>
+            </>
+          )}
         </div>
+
       </div>
     </div>
   );
