@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import "./login.css";
-import carrinhoImg from '../../assets/carrinho.png';
+import principalImg from '../../assets/login.png';
+import logoImg from '../../assets/logosvg.svg';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -30,14 +31,14 @@ function Login() {
       <div className="login-left">
         <h1>RECUPERE CARRINHOS<br />CONQUISTE VENDAS</h1>
         <img
-          src={carrinhoImg}
-          alt="Carrinho de compras"
+          src={principalImg}
+          alt="Robo entregando compras para mulher"
           className="login-image"
         />
       </div>
       <div className="login-right">
         <div className="login-form">
-          <img src="logo.png" alt="Logo Convince AI" className="logo" />
+          <img src={logoImg} alt="Logo Convince AI" className="logo" />
           <h2>Bem vindo de volta!</h2>
           <p>Entre com sua conta</p>
           <form onSubmit={handleSubmit}>

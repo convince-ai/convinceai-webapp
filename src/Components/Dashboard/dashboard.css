@@ -10,7 +10,7 @@ html, body {
 
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: #f4f7fc; 
+  background: linear-gradient(to top, #005aaf, #ffffff);
   color: black; 
   margin: 0;
   padding: 0;

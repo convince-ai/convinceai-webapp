@@ -1,12 +1,12 @@
 .login-container {
     display: flex;
     height: 100vh;
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
   }
   
   .login-left {
     flex: 1;
-    background-color: #eaf7fe;
+    background: linear-gradient(to top, #005aaf, #ffffff);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -45,7 +45,7 @@
   }
   
   .logo {
-    width: 80px;
+    width: 40px;
     margin-bottom: 20px;
   }
   
@@ -85,7 +85,7 @@
   }
   
   .forgot-password a {
-    color: #00aaff;
+    color: #005aaf;
     text-decoration: none;
     font-size: 14px;
   }
@@ -97,7 +97,7 @@
   .btn-login {
     width: 100%;
     padding: 10px;
-    background-color: #00aaff;
+    background-color: #005aaf;
     color: #ffffff;
     font-size: 16px;
     border: none;
@@ -106,6 +106,6 @@
   }
   
   .btn-login:hover {
-    background-color: #0077cc;
+    background-color: #357ab8;
   }
   
