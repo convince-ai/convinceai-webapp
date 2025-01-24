@@ -1,4 +1,3 @@
-/* Reset básico */
 * {
     margin: 0;
     padding: 0;
@@ -6,10 +5,9 @@
   }
   
   body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Poppins', sans-serif;     
     background-color: #eaf4fb;
     margin: 0;
-    scroll-behavior: smooth; /* Suaviza a rolagem entre as telas */
   }
   
   .App {
@@ -29,7 +27,7 @@
   
   /* Tela de Boas-vindas */
   .welcome-screen {
-    background-color: #d6e9f8;
+    background: linear-gradient(to bottom, #005aaf, #ffffff);
     display: flex;
     align-items: center;
   }
@@ -48,17 +46,19 @@
   }
   
   .text-section h1 {
+    color: black;
     font-size: 3rem;
     margin-bottom: 1.25rem;
   }
   
   .text-section p {
+    font-weight: 500;
     font-size: 1.2rem; 
     margin-bottom: 2.5rem; 
   }
   
   .cta-button {
-    background-color: #4a90e2;
+    background-color: #005aaf;
     color: #fff;
     border: none;
     padding: 0.9375rem 1.875rem; 
@@ -79,61 +79,7 @@
     border-radius: 0.625rem;
   }
   
-  /* Tela do Tópico 1 */
-  .info-screen {
-    background-color: #f4f9fc;
-    text-align: center;
-    color: #333;
-  }
-  
-  .info-screen h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1.25rem; 
-    color: #4a90e2;
-  }
-  
-  .info-screen p {
-    font-size: 1.2rem; 
-    max-width: 37.5rem; 
-  }
-  
-  /* Tela do Tópico 2 */
-  .features-screen {
-    background-color: #d6e9f8;
-    text-align: center;
-    color: #333;
-  }
-  
-  .features-screen h2 {
-    font-size: 2.5rem; 
-    margin-bottom: 1.25rem; 
-    color: #4a90e2;
-  }
-  
-  .features-screen ul {
-    list-style-type: none;
-    padding: 0;
-    font-size: 1.2rem; 
-  }
-  
-  .features-screen li {
-    margin: 0.625rem 0;
-  }
-  
-  /* Gradiente de Transição Blue to White */
-  .transition-gradient-B-W {
-    height: 3.125rem;
-    background: linear-gradient(to bottom, #d6e9f8, #f4f9fc); /* Gradiente suave */
-    width: 100%;
-  }
-  
-  /* Gradiente de Transição White to Blue */
-  .transition-gradient-W-B {
-    height: 3.125rem;
-    background: linear-gradient(to bottom, #f4f9fc, #d6e9f8); /* Gradiente suave */
-    width: 100%;
-  }
-  
+
   /* Responsividade */
   @media (max-width: 48rem) { 
     .welcome-screen .content {

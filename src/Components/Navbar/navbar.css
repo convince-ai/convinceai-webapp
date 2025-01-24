@@ -1,0 +1,66 @@
+/* Estilização da Navbar */
+nav {
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    height: 70px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    font-family: 'Poppins', sans-serif; /* Fonte padrão */
+  }
+  
+  nav .logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  
+  nav .logo img {
+    margin: 20px 0 0 40px;
+    height: 40px;
+    width: auto;
+  }
+  
+  nav .menu ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  nav .menu ul li {
+    margin: 0 1rem;
+  }
+  
+  nav .menu ul li a {
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: black;
+    transition: color 0.3s ease;
+  }
+  
+  nav .menu ul li a:hover {
+    color: #005aaf; /* Cor de destaque */
+  }
+  
+  nav .login a {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #005aaf;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  nav .login a:hover {
+    background-color: #357ab8; /* Cor mais escura para hover */
+  }
+  
