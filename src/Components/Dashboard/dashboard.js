@@ -28,23 +28,22 @@ const Dashboard = () => {
     conversionRate: 0,
     abandonedRegions: [],
     abandonedProducts: [],
-    productQuestions: [],
   });
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState("");
+  const [productQuestions, setProductQuestions] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [abandonedCartsRes, recoveredCartsRes, conversionRateRes, abandonedRegionsRes, abandonedProductsRes, productQuestionsRes] = await Promise.all([
+        const [abandonedCartsRes, recoveredCartsRes, conversionRateRes, abandonedRegionsRes, abandonedProductsRes] = await Promise.all([
           axios.get("http://localhost:3001/abandonedCarts"),
           axios.get("http://localhost:3001/recoveredCarts"),
           axios.get("http://localhost:3001/conversionRate"),
           axios.get("http://localhost:3001/abandonedRegions"),
           axios.get("http://localhost:3001/abandonedProducts"),
-          axios.get("http://localhost:3001/productQuestions"),
         ]);
 
         setDashboardData({
@@ -53,10 +52,12 @@ const Dashboard = () => {
           conversionRate: conversionRateRes.data,
           abandonedRegions: abandonedRegionsRes.data,
           abandonedProducts: abandonedProductsRes.data,
-          productQuestions: productQuestionsRes.data,
         });
-
-        setSelectedProduct(productQuestionsRes.data.length > 0 ? productQuestionsRes.data[0].name : "");
+        
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/questions`);
+        const data = await response.json();
+        setProductQuestions(data);
+        setSelectedProduct(data.length > 0 ? data[0].name : ""); 
 
         setLoading(false);
 
@@ -227,7 +228,7 @@ const Dashboard = () => {
                 value={selectedProduct}
                 onChange={handleProductChange}
               >
-                {dashboardData.productQuestions.map((product, index) => (
+                {productQuestions.map((product, index) => (
                   <option key={index} value={product.name}>
                     {product.name}
                   </option>
@@ -237,7 +238,7 @@ const Dashboard = () => {
               <div>
                 <h5>Principais dúvidas {selectedProduct}:</h5>
                 <ul className="questions-list">
-                  {dashboardData.productQuestions
+                  {productQuestions
                     .filter((product) => product.name === selectedProduct)
                     .map((product) =>
                       product.questions.map((question, index) => (

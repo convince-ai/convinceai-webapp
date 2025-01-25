@@ -20,15 +20,5 @@
     { "name": "Produto C", "value": 90 },
     { "name": "Produto D", "value": 80 },
     { "name": "Produto E", "value": 60 }
-  ],
-  "productQuestions": [
-    { "name": "Produto A", "questions": ["Por que é tão caro?", "Qual o prazo de entrega?"] },
-    { "name": "Produto B", "questions": ["Como funciona a garantia?", "O produto é original?", "Por que é tão caro?", "Qual o prazo de entrega?", "Por que é tão caro?", "Qual o prazo de entrega?" ,"Por que é tão caro?", "Qual o prazo de entrega?"] },
-    { "name": "Produto C", "questions": ["É compatível com Windows?", "Possui suporte técnico?"] },
-    { "name": "Produto D", "questions": ["Qual a potência do motor?", "É à prova d'água?"] },
-    { "name": "Produto E", "questions": ["Tem desconto para empresas?", "Funciona em 220V?"] },
-    { "name": "Produto F", "questions": ["Inclui acessórios?", "Qual a durabilidade?"] },
-    { "name": "Produto G", "questions": ["O produto é reciclável?", "Vem com manual em português?"] },
-    { "name": "Produto H", "questions": ["Qual o prazo para troca?", "É um produto sustentável?"] }
   ]
 }
