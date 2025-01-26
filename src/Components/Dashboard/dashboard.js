@@ -39,11 +39,11 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         const [abandonedCartsRes, recoveredCartsRes, conversionRateRes, abandonedRegionsRes, abandonedProductsRes] = await Promise.all([
-          axios.get("http://localhost:3001/abandonedCarts"),
-          axios.get("http://localhost:3001/recoveredCarts"),
-          axios.get("http://localhost:3001/conversionRate"),
-          axios.get("http://localhost:3001/abandonedRegions"),
-          axios.get("http://localhost:3001/abandonedProducts"),
+          axios.get(`${process.env.REACT_APP_DB_TEST}/abandonedCarts`),
+          axios.get(`${process.env.REACT_APP_DB_TEST}/recoveredCarts`),
+          axios.get(`${process.env.REACT_APP_DB_TEST}/conversionRate`),
+          axios.get(`${process.env.REACT_APP_DB_TEST}/abandonedRegions`),
+          axios.get(`${process.env.REACT_APP_DB_TEST}/abandonedProducts`)
         ]);
 
         setDashboardData({
@@ -54,7 +54,7 @@ const Dashboard = () => {
           abandonedProducts: abandonedProductsRes.data,
         });
         
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/questions`);
+        const response = await fetch(`${process.env.REACT_APP_DB_DOUBTS}/api/questions`);
         const data = await response.json();
         setProductQuestions(data);
         setSelectedProduct(data.length > 0 ? data[0].name : ""); 

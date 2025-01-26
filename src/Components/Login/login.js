@@ -35,7 +35,7 @@ function Login() {
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post("http://localhost:3000/auth/login", {
+      const response = await axios.post(`${process.env.REACT_APP_LOGIN_URL}/auth/login`, {
         email,
         password,
       });
@@ -43,6 +43,7 @@ function Login() {
 
       localStorage.setItem("jwt", token);
       navigate("/dashboard");
+
     } catch (error) {
       notifyError();
       setPassword("");
