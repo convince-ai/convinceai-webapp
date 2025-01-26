@@ -1,9 +1,8 @@
 html, body {
   margin: 0;
   padding: 0;
-  overflow-y: hidden; 
+  /*overflow-y: hidden; */
   overflow-x: hidden;
-  height: 100%;
   width: 100%;
   box-sizing: border-box;
 }
@@ -30,7 +29,7 @@ p, label, select {
 
 
 .dashboard-container {
-  padding: 20px;
+  padding: 10px;
 }
 
 .msg-user h3 {
@@ -40,14 +39,14 @@ p, label, select {
 .cards-info {
   display: flex;
   justify-content: space-around;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .card {
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  padding: 10px;
   text-align: center;
   flex: 1;
   margin: 0 10px;
@@ -59,16 +58,15 @@ p, label, select {
   color: #555;
 }
 
-
 .card p {
   font-size: 50px;
   font-weight: bold;
 }
 
 .products-info {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 40px;
+  display: inline-flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
 }
 
 .product-container {
@@ -78,7 +76,8 @@ p, label, select {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
   margin: 10px;
-  max-width: 1000px;
+  max-width: 600px;
+  max-height: 550px;
 }
 
 .product-container h2 {
@@ -90,8 +89,8 @@ p, label, select {
 }
 
 .map-wrapper {
-  width: 800px;
-  height: 600px; 
+  width: 500px;
+  height: 500px; 
   max-height: 80vh; 
   display: flex;
   justify-content: center;
@@ -142,28 +141,16 @@ svg {
   height: 100%; 
 }
 
-
-.itens-wrapper {
-  width: 950px;
-  height: 600px; 
-  max-height: 80vh; 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .chart-wrapper {
-  width: 100%;
+  width: 400px;
   max-width: 500px;
   margin: 0 auto; 
   padding: 50px;
 }
 
 .legend-wrapper {
-  display: flex;
-  flex-wrap: wrap;
+  display: inline-flex;
   justify-content: center;
-  margin-top: 1rem;
 }
 
 .legend-item {

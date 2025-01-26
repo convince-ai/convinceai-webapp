@@ -38,20 +38,35 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [abandonedCartsRes, recoveredCartsRes, conversionRateRes, abandonedRegionsRes, abandonedProductsRes] = await Promise.all([
+        /*const [abandonedCartsRes, recoveredCartsRes, conversionRateRes, abandonedRegionsRes, abandonedProductsRes] = await Promise.all([
           axios.get(`${process.env.REACT_APP_DB_TEST}/abandonedCarts`),
           axios.get(`${process.env.REACT_APP_DB_TEST}/recoveredCarts`),
           axios.get(`${process.env.REACT_APP_DB_TEST}/conversionRate`),
           axios.get(`${process.env.REACT_APP_DB_TEST}/abandonedRegions`),
           axios.get(`${process.env.REACT_APP_DB_TEST}/abandonedProducts`)
-        ]);
+        ]);*/
 
         setDashboardData({
-          abandonedCarts: abandonedCartsRes.data,
-          recoveredCarts: recoveredCartsRes.data,
-          conversionRate: conversionRateRes.data,
-          abandonedRegions: abandonedRegionsRes.data,
-          abandonedProducts: abandonedProductsRes.data,
+          abandonedCarts: 150,//abandonedCartsRes.data,
+          recoveredCarts: 30,//recoveredCartsRes.data,
+          conversionRate: 20,//conversionRateRes.data,
+          abandonedRegions: [{ "state": "São Paulo", "ddd": "11", "abandonedCarts": 120 },
+          { "state": "Rio de Janeiro", "ddd": "21", "abandonedCarts": 90 },
+          { "state": "Minas Gerais", "ddd": "31", "abandonedCarts": 75 },
+          { "state": "Bahia", "ddd": "71", "abandonedCarts": 500 },
+          { "state": "Pará", "ddd": "91", "abandonedCarts": 20 },
+          { "state": "Paraná", "ddd": "41", "abandonedCarts": 300 },
+          { "state": "Santa Catarina", "ddd": "48", "abandonedCarts": 40 },
+          { "state": "Pernambuco", "ddd": "81", "abandonedCarts": 55 },
+          { "state": "Goiás", "ddd": "62", "abandonedCarts": 35 },
+          { "state": "Amazonas", "ddd": "92", "abandonedCarts": 15 }],//abandonedRegionsRes.data,
+          abandonedProducts: [
+            { "name": "Produto A", "value": 200 },
+            { "name": "Produto B", "value": 120 },
+            { "name": "Produto C", "value": 90 },
+            { "name": "Produto D", "value": 80 },
+            { "name": "Produto E", "value": 60 }
+          ]//abandonedProductsRes.data,
         });
         
         const response = await fetch(`${process.env.REACT_APP_DB_DOUBTS}/api/questions`);
