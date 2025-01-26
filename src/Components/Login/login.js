@@ -1,35 +1,63 @@
 import React, { useState } from "react";
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./login.css";
-import principalImg from '../../assets/login.png';
-import logoImg from '../../assets/logosvg.svg';
+import principalImg from "../../assets/login.png";
+import logoImg from "../../assets/logosvg.svg";
+import { toast, ToastContainer, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const navigate = useNavigate();
+
+  const notifyError = () => {
+    toast.error("Usuário ou senha incorretos.", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
+    // Desabilitar o botão para nao spammar a msg
+    setIsSubmitting(true);
+
     try {
-      console.log(email);
-      console.log(password);
-      const response = await axios.post('http://localhost:3000/auth/login', { email, password });
+      const response = await axios.post("http://localhost:3000/auth/login", {
+        email,
+        password,
+      });
       const { token } = response.data;
 
-      localStorage.setItem('jwt', token);  
-      navigate('/dashboard');
+      localStorage.setItem("jwt", token);
+      navigate("/dashboard");
     } catch (error) {
-      alert('Usuário ou senha incorretos.');
+      notifyError();
+      setPassword("");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div className="login-container">
       <div className="login-left">
-        <h1>RECUPERE CARRINHOS<br />CONQUISTE VENDAS</h1>
+        <h1>
+          RECUPERE CARRINHOS<br />
+          CONQUISTE VENDAS
+        </h1>
         <img
           src={principalImg}
           alt="Robo entregando compras para mulher"
@@ -65,12 +93,17 @@ function Login() {
             <div className="forgot-password">
               <a href="#forgot">Esqueceu sua senha?</a>
             </div>
-            <button type="submit" className="btn-login">
-              Entrar
+            <button
+              type="submit"
+              className="btn-login"
+              disabled={isSubmitting} // Desabilitar o botão enquanto está submetendo
+            >
+              {isSubmitting ? "Entrando..." : "Entrar"}
             </button>
           </form>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }
