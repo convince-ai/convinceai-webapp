@@ -1,24 +1,14 @@
 import React, { useState, useEffect } from "react";
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-} from "react-simple-maps";
+import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { scaleLinear } from "d3-scale";
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import axios from "axios";
+import { getAbandonedProducts, getAbandonedRegions } from "./api";
 import "./dashboard.css";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const geoUrl = "https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/brazil-states.geojson";
-
 const colorScale = scaleLinear().domain([0, 150]).range(["#ffcccc", "#990000"]);
 
 const Dashboard = () => {
@@ -32,50 +22,24 @@ const Dashboard = () => {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState("");
-  const [productQuestions, setProductQuestions] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        /*const [abandonedCartsRes, recoveredCartsRes, conversionRateRes, abandonedRegionsRes, abandonedProductsRes] = await Promise.all([
-          axios.get(`${process.env.REACT_APP_DB_TEST}/abandonedCarts`),
-          axios.get(`${process.env.REACT_APP_DB_TEST}/recoveredCarts`),
-          axios.get(`${process.env.REACT_APP_DB_TEST}/conversionRate`),
-          axios.get(`${process.env.REACT_APP_DB_TEST}/abandonedRegions`),
-          axios.get(`${process.env.REACT_APP_DB_TEST}/abandonedProducts`)
-        ]);*/
+        setLoading(true);
 
-        setDashboardData({
-          abandonedCarts: 150,//abandonedCartsRes.data,
-          recoveredCarts: 30,//recoveredCartsRes.data,
-          conversionRate: 20,//conversionRateRes.data,
-          abandonedRegions: [{ "state": "São Paulo", "ddd": "11", "abandonedCarts": 120 },
-          { "state": "Rio de Janeiro", "ddd": "21", "abandonedCarts": 90 },
-          { "state": "Minas Gerais", "ddd": "31", "abandonedCarts": 75 },
-          { "state": "Bahia", "ddd": "71", "abandonedCarts": 500 },
-          { "state": "Pará", "ddd": "91", "abandonedCarts": 20 },
-          { "state": "Paraná", "ddd": "41", "abandonedCarts": 300 },
-          { "state": "Santa Catarina", "ddd": "48", "abandonedCarts": 40 },
-          { "state": "Pernambuco", "ddd": "81", "abandonedCarts": 55 },
-          { "state": "Goiás", "ddd": "62", "abandonedCarts": 35 },
-          { "state": "Amazonas", "ddd": "92", "abandonedCarts": 15 }],//abandonedRegionsRes.data,
-          abandonedProducts: [
-            { "name": "Produto A", "value": 200 },
-            { "name": "Produto B", "value": 120 },
-            { "name": "Produto C", "value": 90 },
-            { "name": "Produto D", "value": 80 },
-            { "name": "Produto E", "value": 60 }
-          ]//abandonedProductsRes.data,
-        });
-        
-        const response = await fetch(`${process.env.REACT_APP_DB_DOUBTS}/api/questions`);
-        const data = await response.json();
-        setProductQuestions(data);
-        setSelectedProduct(data.length > 0 ? data[0].name : ""); 
+        const [abandonedProductsData, abandonedRegionsData] = await Promise.all([
+          getAbandonedProducts(),
+          getAbandonedRegions(),
+        ]);
+
+        setDashboardData((prevData) => ({
+          ...prevData,
+          abandonedProducts: abandonedProductsData, // Dados da API de produtos abandonados
+          abandonedRegions: abandonedRegionsData, // Dados da API de regiões com carrinhos abandonados
+        }));
 
         setLoading(false);
-
       } catch (err) {
         setError("Erro ao carregar os dados do dashboard");
         setLoading(false);
@@ -85,16 +49,11 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
-  const handleProductChange = (event) => {
-    setSelectedProduct(event.target.value);
-  }
-
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>{error}</p>;
 
   return (
     <div className="dashboard-container">
-      
       {/* Cards de informações */}
       <div className="cards-info">
         <div className="msg-user">
@@ -106,37 +65,31 @@ const Dashboard = () => {
           <div className="icon carrinho-abandonado"></div>
           <div>
             <h3>Carrinhos Abandonados</h3>
-            <p>{loading ? "Carregando dados" : dashboardData.abandonedCarts}</p>
+            <p>{dashboardData.abandonedCarts}</p>
           </div>
         </div>
         <div className="card">
           <div className="icon carrinho-recuperado"></div>
           <div>
             <h3>Carrinhos Recuperados</h3>
-            <p>{loading ? "Carregando dados" : dashboardData.recoveredCarts}</p>
+            <p>{dashboardData.recoveredCarts}</p>
           </div>
         </div>
         <div className="card">
           <div className="icon taxa-de-conv"></div>
           <div>
             <h3>Taxa de conversão</h3>
-            <p>{loading ? "Carregando dados" : dashboardData.conversionRate}%</p>
+            <p>{dashboardData.conversionRate}%</p>
           </div>
         </div>
       </div>
 
-      {/* Mapa do Brasil*/}
+      {/* Mapa do Brasil */}
       <div className="products-info">
         <div className="product-container">
           <h2>PRODUTOS ABANDONADOS POR REGIÃO</h2>
           <div className="map-wrapper">
-            <ComposableMap
-              projection="geoMercator"
-              projectionConfig={{
-                center: [-413, -15],
-                scale: 850,
-              }}
-            >
+            <ComposableMap projection="geoMercator" projectionConfig={{ center: [-413, -15], scale: 850 }}>
               <Geographies geography={geoUrl}>
                 {({ geographies }) =>
                   geographies.map((geo) => {
@@ -162,7 +115,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/*Produtos mais abandonados*/}
+        {/* Produtos mais abandonados */}
         <div className="product-container">
           <h2>PRODUTOS MAIS ABANDONADOS</h2>
           <div className="chart-wrapper">
@@ -172,28 +125,14 @@ const Dashboard = () => {
                 datasets: [
                   {
                     data: dashboardData.abandonedProducts.map((p) => p.value),
-                    backgroundColor: [
-                      "#FF6384",
-                      "#36A2EB",
-                      "#FFCE56",
-                      "#4BC0C0",
-                      "#9966FF",
-                    ],
-                    hoverBackgroundColor: [
-                      "#FF6384AA",
-                      "#36A2EBAA",
-                      "#FFCE56AA",
-                      "#4BC0C0AA",
-                      "#9966FFAA",
-                    ],
+                    backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"],
+                    hoverBackgroundColor: ["#FF6384AA", "#36A2EBAA", "#FFCE56AA", "#4BC0C0AA", "#9966FFAA"],
                   },
                 ],
               }}
               options={{
                 plugins: {
-                  legend: {
-                    display: false, // Desativa a legenda padrão
-                  },
+                  legend: { display: false },
                   tooltip: {
                     callbacks: {
                       label: function (context) {
@@ -213,59 +152,13 @@ const Dashboard = () => {
               <div key={index} className="legend-item">
                 <span
                   className="legend-color"
-                  style={{
-                    backgroundColor: [
-                      "#FF6384",
-                      "#36A2EB",
-                      "#FFCE56",
-                      "#4BC0C0",
-                      "#9966FF",
-                    ][index],
-                  }}
+                  style={{ backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"][index] }}
                 ></span>
                 <span className="legend-label">{product.name}</span>
               </div>
             ))}
           </div>
         </div>
-
-
-        {/* Box com Dúvidas */}
-        <div className="product-container dv">
-          <h2>PRINCIPAIS DÚVIDAS POR PRODUTO</h2>
-          {loading ? (
-            <p>Carregando dúvidas...</p>
-          ) : (
-            <>
-              <label htmlFor="product-select">Selecione um produto:</label>
-              <select
-                id="product-select"
-                value={selectedProduct}
-                onChange={handleProductChange}
-              >
-                {productQuestions.map((product, index) => (
-                  <option key={index} value={product.name}>
-                    {product.name}
-                  </option>
-                ))}
-              </select>
-
-              <div>
-                <h5>Principais dúvidas {selectedProduct}:</h5>
-                <ul className="questions-list">
-                  {productQuestions
-                    .filter((product) => product.name === selectedProduct)
-                    .map((product) =>
-                      product.questions.map((question, index) => (
-                        <li key={index}>{question}</li>
-                      ))
-                    )}
-                </ul>
-              </div>
-            </>
-          )}
-        </div>
-
       </div>
     </div>
   );
