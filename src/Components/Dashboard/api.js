@@ -10,7 +10,15 @@ const api = axios.create({
 export const getAbandonedRegions = async () => {
   try {
     const response = await api.get("/abandoned-cart/bi/abandoned-regions");
-    return response.data;
+    
+    // Convertendo para o formato correto
+    const formattedData = response.data.map((item) => ({
+      state: item.state, 
+      ddd: item.ddd,
+      abandonedCarts: item.abandonedCarts,
+    }));
+
+    return formattedData;
   } catch (error) {
     console.error("Erro ao buscar regiões de carrinhos abandonados:", error);
     return [];
