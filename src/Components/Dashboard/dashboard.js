@@ -4,6 +4,7 @@ import { scaleLinear } from "d3-scale";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { getAbandonedProducts, getAbandonedRegions } from "./api";
+import axios from "axios";
 import "./dashboard.css";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -22,6 +23,8 @@ const Dashboard = () => {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState("");
+  const [productQuestions, setProductQuestions] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,6 +42,11 @@ const Dashboard = () => {
           abandonedRegions: abandonedRegionsData, // Dados da API de regiões com carrinhos abandonados
         }));
 
+        const response = await fetch(`${process.env.REACT_APP_DB_DOUBTS}/api/questions`);
+        const data = await response.json();
+        setProductQuestions(data);
+        setSelectedProduct(data.length > 0 ? data[0].name : ""); 
+
         setLoading(false);
       } catch (err) {
         setError("Erro ao carregar os dados do dashboard");
@@ -49,6 +57,10 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
+  const handleProductChange = (event) => {
+    setSelectedProduct(event.target.value);
+  }
+  
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>{error}</p>;
 
@@ -159,6 +171,42 @@ const Dashboard = () => {
             ))}
           </div>
         </div>
+
+        {/* Box com Dúvidas */}
+        <div className="product-container dv">
+          <h2>PRINCIPAIS DÚVIDAS POR PRODUTO</h2>
+          {loading ? (
+            <p>Carregando dúvidas...</p>
+          ) : (
+            <>
+              <label htmlFor="product-select">Selecione um produto:</label>
+              <select
+                id="product-select"
+                value={selectedProduct}
+                onChange={handleProductChange}
+              >
+                {productQuestions.map((product, index) => (
+                  <option key={index} value={product.name}>
+                    {product.name}
+                  </option>
+                ))}
+              </select>
+              <div>
+                <h5>Principais dúvidas {selectedProduct}:</h5>
+                <ul className="questions-list">
+                  {productQuestions
+                    .filter((product) => product.name === selectedProduct)
+                    .map((product) =>
+                      product.questions.map((question, index) => (
+                        <li key={index}>{question}</li>
+                      ))
+                    )}
+                </ul>
+              </div>
+            </>
+          )}
+        </div>
+
       </div>
     </div>
   );
