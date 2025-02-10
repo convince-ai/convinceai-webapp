@@ -9,7 +9,11 @@ const api = axios.create({
 // Carrinhos abandonados por região
 export const getAbandonedRegions = async () => {
   try {
-    const response = await api.get("/abandoned-cart/bi/abandoned-regions");
+    const response = await api.get("/abandoned-cart/bi/abandoned-regions", {
+      headers: {
+        Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`
+      },
+    });
     
     // Convertendo para o formato correto
     const formattedData = response.data.map((item) => ({
@@ -28,14 +32,27 @@ export const getAbandonedRegions = async () => {
 // Produtos abandonados
 export const getAbandonedProducts = async () => {
   try {
-    const response = await api.get("/products/bi/abandoned-products", {
+    const response = await api.get("/abandoned-cart/bi/abandoned-products", {
       headers: {
-        Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`,
+        Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`
       },
     });
-    return response.data;
+
+    // Convertendo para o formato correto
+    const formattedData = response.data.map((item) => ({
+      name: item.name, 
+      value: item.value
+    }));
+
+    return formattedData;
   } catch (error) {
     console.error("Erro ao buscar produtos abandonados:", error);
     return [];
   }
 };
+
+//Carrinhos abandonados 
+
+//Carrinhos recuperados
+
+//Taxa de conversao

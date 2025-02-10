@@ -4,7 +4,6 @@ import { scaleLinear } from "d3-scale";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { getAbandonedProducts, getAbandonedRegions } from "./api";
-import axios from "axios";
 import "./dashboard.css";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -60,7 +59,7 @@ const Dashboard = () => {
   const handleProductChange = (event) => {
     setSelectedProduct(event.target.value);
   }
-  
+
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>{error}</p>;
 
